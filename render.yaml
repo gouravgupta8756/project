@@ -1,0 +1,23 @@
+# render.yaml — Deploy PixelLift backend to Render.com
+# Commit this file to your repo, then connect repo in Render dashboard.
+
+services:
+  - type: web
+    name: pixellift-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: ADD_WATERMARK
+        value: "true"
+      - key: RATE_LIMIT_MAX
+        value: "30"
+      # Set these in the Render dashboard (don't commit secrets to git!):
+      # - key: REMOVE_BG_API_KEY
+      #   value: your_key_here
+      # - key: FRONTEND_URL
+      #   value: https://your-vercel-app.vercel.app

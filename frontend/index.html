@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelLift — AI Photo Enhancer & Background Remover</title>
+  <meta name="description" content="PixelLift uses AI to enhance your photos and remove backgrounds instantly. Free to try, no sign-up required for 3 images/day." />
+  <meta name="keywords" content="AI photo enhancer, background remover, image upscaler, free photo editor" />
+  <meta name="author" content="PixelLift" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo"><span class="logo-icon">✦</span>PixelLift</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#tool" class="btn-nav">Try Free</a>
+      </div>
+      <button class="hamburger" id="hamburger">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#tool">Try Free</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ Powered by AI</div>
+      <h1>Your photos,<br /><em>reimagined.</em></h1>
+      <p class="hero-sub">Enhance quality, remove backgrounds, and download stunning results — in seconds.</p>
+      <div class="hero-cta">
+        <a href="#tool" class="btn-primary">Start Enhancing Free</a>
+        <a href="#features" class="btn-ghost">See how it works ↓</a>
+      </div>
+      <p class="hero-note">3 free images/day · No credit card required</p>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card1"><div class="card-label">✓ Background Removed</div></div>
+      <div class="floating-card card2"><div class="card-label">✦ AI Enhanced</div></div>
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Sample" loading="lazy" />
+        <div class="hero-img-overlay"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-label">What PixelLift does</div>
+      <h2 class="section-title">Two powerful tools,<br />one clean interface.</h2>
+      <div class="features-grid">
+        <div class="feature-card"><div class="feature-icon">⚡</div><h3>AI Enhancement</h3><p>Boost sharpness, brightness, and clarity automatically.</p></div>
+        <div class="feature-card"><div class="feature-icon">✂</div><h3>Background Removal</h3><p>Isolate subjects with pixel-perfect precision instantly.</p></div>
+        <div class="feature-card"><div class="feature-icon">⬛</div><h3>Before / After Slider</h3><p>Compare original and processed image side by side.</p></div>
+        <div class="feature-card"><div class="feature-icon">↓</div><h3>Instant Download</h3><p>Download in high-quality PNG format — ready to use.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOL -->
+  <section class="tool-section" id="tool">
+    <div class="container">
+      <div class="section-label">The Tool</div>
+      <h2 class="section-title">Drop in. Process. Done.</h2>
+
+      <div class="login-gate" id="loginGate">
+        <div class="login-card">
+          <div class="login-icon">✦</div>
+          <h3>Enter your email to start</h3>
+          <p>No password needed. Get 3 free processes per day.</p>
+          <div class="login-form">
+            <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
+            <button class="btn-primary" id="loginBtn">Start Free →</button>
+          </div>
+          <p class="login-note" id="loginError"></p>
+        </div>
+      </div>
+
+      <div class="tool-ui hidden" id="toolUI">
+        <div class="usage-bar">
+          <span id="usageLabel">3 / 3 uses remaining today</span>
+          <div class="usage-track"><div class="usage-fill" id="usageFill"></div></div>
+          <a href="#pricing" class="upgrade-link">Upgrade for unlimited ↗</a>
+        </div>
+
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileInput" accept="image/jpeg,image/png" hidden />
+          <div class="upload-content" id="uploadContent">
+            <div class="upload-icon">⬆</div>
+            <p class="upload-title">Drag & drop your image here</p>
+            <p class="upload-sub">or <span class="upload-link">browse files</span></p>
+            <p class="upload-hint">JPG or PNG · Max 10MB</p>
+          </div>
+        </div>
+
+        <div class="action-row hidden" id="actionRow">
+          <button class="btn-action btn-enhance" id="btnEnhance"><span class="btn-icon">⚡</span> Enhance Image</button>
+          <button class="btn-action btn-remove"  id="btnRemove"><span class="btn-icon">✂</span> Remove Background</button>
+        </div>
+
+        <div class="loading-overlay hidden" id="loadingOverlay">
+          <div class="loader-ring"></div>
+          <p class="loading-text" id="loadingText">Processing…</p>
+          <p class="loading-sub">This usually takes 3–8 seconds</p>
+        </div>
+
+        <div class="compare-section hidden" id="compareSection">
+          <h3 class="compare-title">Before & After</h3>
+          <div class="compare-wrapper" id="compareWrapper">
+            <div class="compare-after"><img id="imgAfter" src="" alt="Processed" /><span class="compare-label">AFTER</span></div>
+            <div class="compare-before"><img id="imgBefore" src="" alt="Original" /><span class="compare-label">BEFORE</span></div>
+            <div class="compare-slider" id="compareSlider"><div class="slider-handle">⇔</div></div>
+          </div>
+          <div class="download-row">
+            <button class="btn-primary btn-download" id="btnDownload">↓ Download Result</button>
+            <button class="btn-ghost btn-reset" id="btnReset">Upload another</button>
+          </div>
+          <p class="watermark-note">Free version includes a watermark. <a href="#pricing">Upgrade to remove it.</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-label">Simple Pricing</div>
+      <h2 class="section-title">Start free, upgrade when ready.</h2>
+      <div class="pricing-grid">
+
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">₹0<span>/mo</span></div>
+          <ul class="plan-features">
+            <li>✓ 3 images per day</li>
+            <li>✓ Background removal</li>
+            <li>✓ AI enhancement</li>
+            <li>✓ Download results</li>
+            <li class="muted">✗ Watermark on outputs</li>
+            <li class="muted">✗ Batch processing</li>
+            <li class="muted">✗ Priority queue</li>
+          </ul>
+          <a href="#tool" class="btn-ghost plan-btn">Get Started</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">₹99<span>/mo</span></div>
+          <ul class="plan-features">
+            <li>✓ Unlimited images</li>
+            <li>✓ Background removal</li>
+            <li>✓ AI enhancement</li>
+            <li>✓ Download results</li>
+            <li>✓ No watermark</li>
+            <li>✓ Batch processing (up to 50)</li>
+            <li>✓ Priority queue</li>
+          </ul>
+          <!-- data-plan tells JS which plan to charge -->
+          <button class="btn-primary plan-btn" data-plan="monthly">Upgrade to Pro ✦</button>
+        </div>
+
+        <div class="pricing-card">
+          <div class="plan-name">Pro Yearly</div>
+          <div class="plan-price">₹1500<span>/yr</span></div>
+          <ul class="plan-features">
+            <li>✓ Everything in Pro</li>
+            <li>✓ Save ₹3,989/year</li>
+            <li>✓ Unlimited images</li>
+            <li>✓ No watermark</li>
+            <li>✓ Batch processing</li>
+            <li>✓ Priority queue</li>
+            <li>✓ Early access features</li>
+          </ul>
+          <button class="btn-ghost plan-btn" data-plan="yearly">Get Yearly Deal ✦</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="logo-icon">✦</span> PixelLift</div>
+      <p class="footer-tagline">AI-powered photo tools for everyone.</p>
+      <p class="footer-copy">© 2025 PixelLift. Built with care.</p>
+    </div>
+  </footer>
+
+  <script src="app_with_payment.js"></script>
+</body>
+</html>
