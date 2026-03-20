@@ -1,6 +1,5 @@
 /**
- * PixelLift — server.js (UPDATED with Razorpay)
- * Replace your existing backend/server.js with this file
+ * PixelLift — server.js (FINAL FIXED VERSION)
  */
 
 require('dotenv').config();
@@ -10,27 +9,13 @@ const rateLimit = require('express-rate-limit');
 
 const enhanceRoute  = require('./routes/enhance');
 const removeBgRoute = require('./routes/removeBg');
-const paymentRoute  = require('./routes/payment');   // NEW
+const paymentRoute  = require('./routes/payment');
 
 const app  = express();
 const PORT = process.env.PORT || 3001;
 
-// ── CORS ───────────────────────────────────────────────────
-const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:5500',
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'http://127.0.0.1:5500',
-  'http://127.0.0.1:3000',
-];
-app.use(cors({
-  origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(origin)) cb(null, true);
-    else cb(new Error('CORS: Origin not allowed'));
-  },
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-}));
+// ── CORS (FIXED) ───────────────────────────────────────────
+app.use(cors());   // 🔥 FULL OPEN (no blocking)
 
 // ── Rate Limiting ──────────────────────────────────────────
 const limiter = rateLimit({
@@ -46,7 +31,7 @@ app.use(express.json());
 // ── Routes ─────────────────────────────────────────────────
 app.use('/api/enhance',   enhanceRoute);
 app.use('/api/remove-bg', removeBgRoute);
-app.use('/api/payment',   paymentRoute);   // NEW
+app.use('/api/payment',   paymentRoute);
 
 // ── Health Check ───────────────────────────────────────────
 app.get('/api/health', (req, res) => {
@@ -63,8 +48,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message || 'Internal server error' });
 });
 
+// ── Start Server ───────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`\n✦ PixelLift backend running on http://localhost:${PORT}`);
-  console.log(`  Razorpay: ${process.env.RAZORPAY_KEY_ID ? '✅ configured' : '⚠️  add RAZORPAY_KEY_ID to .env'}`);
-  console.log(`  Health: http://localhost:${PORT}/api/health\n`);
+  console.log(`\n✦ PixelLift backend running on PORT ${PORT}`);
 });

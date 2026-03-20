@@ -5,8 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  var API_BASE     = 'http://localhost:3001';
-  var MAX_FREE     = 3;
+var API_BASE = 'https://pixellift-backend.onrender.com';  var MAX_FREE     = 3;
   var currentFile  = null;
   var processedBlob= null;
   var userEmail    = null;
