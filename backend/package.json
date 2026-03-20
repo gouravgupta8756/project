@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "PixelLift AI Photo Enhancer — Node.js backend",
   "main": "server.js",
+  "engines": {
+  "node": "18.x"
+},
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
@@ -20,7 +23,5 @@
   "devDependencies": {
     "nodemon": "^3.0.2"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  
 }
